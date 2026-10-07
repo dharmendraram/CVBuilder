@@ -43,6 +43,8 @@ public class SecurityConfig {
                                 "/api/auth/verify-email",
                                 "/api/auth/upload-image",
                                 "/api/auth/resend-verification",
+                                "/api/payment/verify",
+                                "/api/payment/failure",
                                 "/actuator/**"
                         ).permitAll()
                         .anyRequest().authenticated())
