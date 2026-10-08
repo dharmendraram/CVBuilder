@@ -18,26 +18,23 @@ public class TemplatesService {
     private final AuthService authService;
 
     public Map<String, Object> getTemplates(@Nullable Object principal) {
-        // step 1: get the current profile
         AuthResponse authResponse = authService.getProfile(principal);
 
-        // step 2: get the available template based on subscription
-        List<String> availableTemplates ;
-
         Boolean isPremium = PREMIUM.equalsIgnoreCase(authResponse.getSubscriptionPlan());
-        if(isPremium){
-            availableTemplates = List.of("01","02", "03");
+        
+        // 01, 02, 03, 04 are FREE. 05 and 06 are PAID / PRO.
+        List<String> availableTemplates;
+        if (isPremium) {
+            availableTemplates = List.of("01", "02", "03", "04", "05", "06");
+        } else {
+            availableTemplates = List.of("01", "02", "03", "04");
         }
-        else{
-            availableTemplates = List.of("01");
-        }
-        // step 3: add to data into map
+
         Map<String, Object> restrictions = new HashMap<>();
         restrictions.put("availableTemplates", availableTemplates);
-        restrictions.put("allTemplates", List.of("01","02","03"));
+        restrictions.put("allTemplates", List.of("01", "02", "03", "04", "05", "06"));
         restrictions.put("subscriptionPlan", authResponse.getSubscriptionPlan());
         restrictions.put("isPremium", isPremium);
-        // step 4: return the result
         return restrictions;
     }
 }
